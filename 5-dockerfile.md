@@ -53,17 +53,24 @@ docker build -t <nombre imagen>:<tag> .
 ### Ejecutar el archivo Dockerfile y construir una imagen en la versión 1.0
 No olvides verificar en qué directorio se encuentra el archivo Dockerfile
 ```
-
+docker build -t httpd:1.0 .
 ```
 
 **¿Cuántos pasos se han ejecutado?**
-# RESPONDER 
+
+En este caso con el Dockerfile proprocionado no se puede ejecutar debido a la imagen de centos:7
+ya que se ha dejado de dar mantenimiento, por lo que he usado directamente ***httpd:2.4***
+Con esto aclarado, se ha notado que se han ejecutado 7 pasos en total.
 
 ### Inspeccionar la imagen creada
-# COMPLETAR CON UNA CAPTURA
+![Dockerfile](imgPractica/inspeccion.png)
+
 
 **Modificar el archivo index.html para incluir su nombre y luego crear una nueva versión de la imagen anterior**
 **¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
+
+Se puede observar de manera casi similar los mismos 7 pasos, pero con la diferencia de que se ha demorado mucho menos que la primera ves que se creo la imagen.
+En razon de algo diferente se puede observar parte de los logs de creacion secciones llamadas **cached** en donde eran instruciones que no se cambia como el **FROM** a diferencia del **COPY** donde se cambio el index.
 
 ## Mecanismo de caché
 Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso de construcción y evitar la repetición de pasos que no han cambiado. Cada instrucción en un Dockerfile crea una capa en la imagen final. Docker intenta reutilizar las capas de una construcción anterior si no han cambiado, lo que reduce significativamente el tiempo de construcción.
@@ -75,14 +82,16 @@ Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso
 
 ### Crear un contenedor a partir de las imagen creada, mapear todos los puertos
 ```
-
+docker run -d -P --name containerHttpd httpd:2.0
 ```
 
 ### ¿Con que puerto host se está realizando el mapeo?
-# COMPLETAR CON LA RESPUESTA
+
+En este caso del comando anterior se la esta realizando con el el puerto **32768**
 
 **¿Qué es una imagen huérfana?**
-# COMPLETAR CON LA RESPUESTA
+
+En Docker esto se refiere a una imagen que ya no tiene ningún contenedor asociado, ya sea por que el contenedor se ha elimiando o por que no se a creado alguno con esta imagen
 
 ### Identificar imágenes huérfanas
 ```
@@ -107,6 +116,3 @@ docker build -t <nombre imagen>:<tag> -f <ruta y nombre del Dockerfile> .
 
 ## Por ejemplo
 docker build -t imagen:1.0 -f Dockerfile-custom .
-
-
-

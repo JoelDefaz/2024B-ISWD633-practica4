@@ -1,6 +1,3 @@
-FROM centos:7
-RUN yum -y update
-RUN yum -y install httpd
-COPY ./web /var/www/html
+FROM httpd:2.4
+COPY ./web /usr/local/apache2/htdocs/
 EXPOSE 80
-CMD ["apachectl", "-D", "FOREGROUND"]
